@@ -13,12 +13,14 @@ app.use(cookieSession({
 }));
 
 // import all routers 
-const userRouter = require('../controllers/users.controllers');
+const userRouter = require('../controllers/users.controller');
+const todosRouter = require('../controllers/todos.controller');
 
 
 
 // use all routers 
 app.use("/users", userRouter);
+app.use("/todos", todosRouter);
 
 
 app.get('/', async (req, res) => {
