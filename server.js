@@ -14,7 +14,7 @@ const mainRunningServer = async () => {
             console.log(`Server running is port number http://localhost:${PORT}`);
         })
     } catch (error) {
-        console.log(error);
+        return res.status(400).json({ message: error.message });
     }
 };
 
