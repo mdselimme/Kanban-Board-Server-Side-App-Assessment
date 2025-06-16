@@ -38,8 +38,9 @@ userRouter.post('/login', async (req, res) => {
         const { email, password } = req.body;
         // find user if exists 
         const user = await UserRegister.findOne({ email: email });
+        console.log(user)
         if (!user) {
-            return res.status(400).send({ message: "Invalid Users. Please sign in first." });
+            return res.status(400).send({ message: "Invalid Users. Please Register Account." });
         };
 
         // password matching with bycrypt 
