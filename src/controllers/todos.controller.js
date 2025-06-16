@@ -27,7 +27,18 @@ todosRouter.get('/:userId', async (req, res) => {
     } catch (error) {
         return res.status(400).json({ message: error.message });
     }
-})
+});
+
+//delete A todos 
+todosRouter.delete('/delete/:deleteId', async (req, res) => {
+    try {
+        const delete_id = req.params.deleteId;
+        const deleteResult = await TodoModel.findByIdAndDelete(delete_id);
+        return res.status(201).json({ success: true, message: "Delete Todo Successfully", todoTitle: deleteResult.todoTitle });
+    } catch (error) {
+        return res.status(400).json({ message: error.message });
+    }
+});
 
 
 module.exports = todosRouter;
