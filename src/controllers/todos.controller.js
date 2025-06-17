@@ -19,11 +19,22 @@ todosRouter.post('/add-todo', async (req, res) => {
 });
 
 // get All todos 
-todosRouter.get('/:userId', async (req, res) => {
+todosRouter.get('/user-todo/:userId', async (req, res) => {
     try {
         const user_id = req.params.userId;
         const todosByUser = await TodoModel.find({ userId: { $eq: user_id } });
         res.status(200).json(todosByUser)
+    } catch (error) {
+        return res.status(400).json({ message: error.message });
+    }
+});
+
+// get Single Todo by id
+todosRouter.get('/todo/:todoId', async (req, res) => {
+    try {
+        const todo_id = req.params.todoId;
+        const todo = await TodoModel.findById(todo_id);
+        res.status(200).json(todo);
     } catch (error) {
         return res.status(400).json({ message: error.message });
     }
