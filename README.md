@@ -18,10 +18,10 @@ method: POST
 ```
 * After Succesfully User Registration Get a Response Message like this:
 
-```json
+```js
     { 
-        "success": true,
-        "message": "Registration User Successfully." //Status Code 201
+        success: true,
+        message: "Registration User Successfully."
     }
 ```
 
@@ -64,4 +64,34 @@ method: POST
      message: "User Logged Out Successfully" 
      }
 ```
+
+## Todos Management documentation
+
+### Add Todo by With User id
+
+register api url : https://kanban-board-server-side-app-assessment.onrender.com/todos/add-todo
+method: POST
+
+#### Add Todo schema model
+
+```js
+    {
+    userId: string,
+    todoTitle: string,
+    todoDescription: string,
+    todoDeadline:Date,//ISO format
+    todoPriority:string,
+    todoStatus: string //["todo", "in_progress", "done"] within this values
+}
+```
+* After Succesfully todo create Get a Response Message like this:
+
+```js
+    { 
+        success: true,
+        message: "Todo Added Successfully.",
+        todoTitle: "Hello"//which title will you give 
+    }
+```
+
 
