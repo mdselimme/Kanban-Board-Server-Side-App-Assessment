@@ -38,22 +38,40 @@ userRouter.post('/login', async (req, res) => {
         const { email, password } = req.body;
         // find user if exists 
         const user = await UserRegister.findOne({ email: email });
-        console.log(user)
+
+        // If User Not Exists 
         if (!user) {
             return res.status(400).send({ message: "Invalid Users. Please Register Account." });
         };
 
         // password matching with bycrypt 
-        const isMatch = await bcrypt.compare(password, user.password);
+        const isPasswordMatch = await bcrypt.compare(password, user.password);
 
         // is password didn't match 
-        if (!isMatch) {
+        if (!isPasswordMatch) {
             return res.status(400).send({ message: "Invalid Password. Please sign in with right password." });
         }
-        // json web token create 
-        const token = jwt.sign({ id: user._id }, process.env.TOKEN_SECRET, { expiresIn: '1h' });
 
-        return res.status(201).json({ token, message: "User Logged in Successfully", user: { id: user._id, name: user.fullName } });
+        if (user && isPasswordMatch) {
+            // Access web token create 
+            const accessToken = jwt.sign({ id: user._id, email: user.email }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '10m' });
+
+            // Refresh Web Token Create 
+            const refreshToken = jwt.sign({ email: user.email }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '1d' });
+
+            // refresh Token assign httponly cookie 
+            res.cookie('jwt', refreshToken, {
+                httpOnly: true,
+                sameSite: 'none', secure: true,
+                maxAge: 24 * 60 * 60 * 1000
+            });
+
+            return res.status(201).json({ token: accessToken, message: "User Logged in Successfully", user: { id: user._id, name: user.fullName } });
+        } else {
+            return res.status(406).json({
+                message: 'Invalid credentials'
+            });
+        }
 
     } catch (error) {
         return res.status(400).json({ message: error.message });
@@ -69,13 +87,6 @@ userRouter.post('/logout', async (req, res) => {
         return res.status(400).json({ message: error.message });
     };
 });
-
-
-
-
-
-
-
 
 
 module.exports = userRouter;

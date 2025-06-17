@@ -23,7 +23,19 @@ todosRouter.get('/:userId', async (req, res) => {
     try {
         const user_id = req.params.userId;
         const todosByUser = await TodoModel.find({ userId: { $eq: user_id } });
-        res.json(todosByUser)
+        res.status(200).json(todosByUser)
+    } catch (error) {
+        return res.status(400).json({ message: error.message });
+    }
+});
+
+// Todo Status Change By id
+todosRouter.patch('/update-status/:todoId', async (req, res) => {
+    try {
+        const todo_id = req.params.todoId;
+        const updateStatus = req.body;
+        const updateBody = await TodoModel.findByIdAndUpdate(todo_id, updateStatus);
+        return res.status(201).json({ success: true, message: "Todo Status Update Successfully.", status: updateBody.todoStatus });
     } catch (error) {
         return res.status(400).json({ message: error.message });
     }
