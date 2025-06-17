@@ -52,6 +52,20 @@ todosRouter.patch('/update-status/:todoId', async (req, res) => {
     }
 });
 
+// Todo Update By id
+todosRouter.put('/update-todo/:todoId', async (req, res) => {
+    try {
+        const todo_id = req.params.todoId;
+        const updateStatus = req.body;
+        const updateBody = await TodoModel.findByIdAndUpdate(todo_id, updateStatus);
+        return res.status(201).json({ success: true, message: "Todo Update Successfully.", todoTitle: updateBody.todoTitle });
+    } catch (error) {
+        return res.status(400).json({ message: error.message });
+    }
+});
+
+
+
 //delete A todos 
 todosRouter.delete('/delete/:deleteId', async (req, res) => {
     try {
