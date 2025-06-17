@@ -5,6 +5,7 @@
 ### Register User
 
 register api url : https://kanban-board-server-side-app-assessment.onrender.com/users/register
+
 method: POST
 
 #### Register schema model
@@ -28,6 +29,7 @@ method: POST
 ### Login User
 
 login api url : https://kanban-board-server-side-app-assessment.onrender.com/users/login
+
 method: POST
 
 #### Login schema model
@@ -53,6 +55,7 @@ method: POST
 ### Logout User
 
 login api url : https://kanban-board-server-side-app-assessment.onrender.com/users/logout
+
 method: POST
 
 
@@ -70,6 +73,7 @@ method: POST
 ### Add Todo by With User id
 
 register api url : https://kanban-board-server-side-app-assessment.onrender.com/todos/add-todo
+
 method: POST
 
 #### Add Todo schema model
@@ -93,5 +97,13 @@ method: POST
         todoTitle: "Hello"//which title will you give 
     }
 ```
+
+### Get Todos filter With User id
+
+register api url : https://kanban-board-server-side-app-assessment.onrender.com/todos/user-todo/:userId
+
+method: GET
+
+* After Succesfully find to by given id response: An array of todos
 
 
